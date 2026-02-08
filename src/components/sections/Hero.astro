@@ -10,7 +10,8 @@ interface Props {
 const { content, lang } = Astro.props;
 
 const streamUrl = import.meta.env.PUBLIC_STREAM_IFRAME_URL;
-const youtubeUrl = import.meta.env.PUBLIC_HERO_YOUTUBE_URL;
+const youtubeUrl =
+ import.meta.env.PUBLIC_HERO_YOUTUBE_URL;
 const hasVideo = !!(streamUrl || youtubeUrl);
 ---
 
@@ -90,6 +91,7 @@ const hasVideo = !!(streamUrl || youtubeUrl);
 )}
 
 <script>
+if (typeof window !== "undefined") {
   const trigger = document.getElementById('video-trigger');
   const modal = document.getElementById('video-modal') as HTMLDialogElement;
   const closeBtn = document.getElementById('close-modal');
@@ -118,4 +120,5 @@ const hasVideo = !!(streamUrl || youtubeUrl);
       }
     });
   }
+}
 </script>
