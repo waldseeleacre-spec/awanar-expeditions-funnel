@@ -59,6 +59,7 @@ const hasVideo = !!(streamUrl || youtubeUrl);
   {youtubeUrl && !streamUrl && (
     <button
       id="video-trigger"
+      data-youtube={youtubeUrl}
       class="absolute bottom-8 right-8 z-20 flex items-center gap-2 text-white hover:text-aw-sand transition-colors"
       aria-label="Watch video"
     >
@@ -96,7 +97,7 @@ if (typeof window !== "undefined") {
   const modal = document.getElementById('video-modal') as HTMLDialogElement;
   const closeBtn = document.getElementById('close-modal');
   const container = document.getElementById('video-container');
-  const youtubeUrl = '${youtubeUrl || ''}';
+  const youtubeUrl = trigger?.getAttribute('data-youtube') || '';
 
   if (trigger && modal && container) {
     trigger.addEventListener('click', () => {
