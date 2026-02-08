@@ -1,0 +1,43 @@
+---
+import FunnelLayout from '@layouts/FunnelLayout.astro';
+import TypeformEmbed from '@components/conversion/TypeformEmbed.astro';
+import { getContent } from '@content/content';
+
+const lang = 'es';
+const content = getContent(lang);
+const canonical = 'https://awanar-expeditions.com/es/apply';
+---
+
+<FunnelLayout 
+  title={`Aplicar | ${content.meta.siteName}`}
+  description="Aplica para la expedición al Amazonas en septiembre 2026. Plazas limitadas disponibles."
+  canonical={canonical}
+  lang={lang}
+  content={content}
+>
+  <section class="section-padding pt-24 pb-16">
+    <div class="container-narrow text-center">
+      <h1 class="text-3xl sm:text-4xl font-bold text-aw-base mb-4">{content.apply.title}</h1>
+      <p class="text-lg text-aw-sage mb-12">{content.apply.subtitle}</p>
+    </div>
+  </section>
+
+  <section class="section-padding pb-16">
+    <div class="container-narrow">
+      <TypeformEmbed height="700px" />
+    </div>
+  </section>
+
+  <!-- Alternative contact -->
+  <section class="section-padding py-12 bg-aw-base/5">
+    <div class="container-narrow text-center">
+      <p class="text-aw-sage mb-4">¿Prefieres hablar primero?</p>
+      <a 
+        href="/es/call" 
+        class="inline-flex items-center justify-center px-6 py-3 border-2 border-aw-base text-aw-base rounded-lg font-medium hover:bg-aw-base hover:text-aw-sand transition-colors"
+      >
+        Reservar llamada en su lugar
+      </a>
+    </div>
+  </section>
+</FunnelLayout>

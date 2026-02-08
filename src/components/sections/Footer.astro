@@ -1,0 +1,94 @@
+---
+import { languageNames, type Language } from '@lib/i18n';
+
+interface Props {
+  lang: Language;
+  email: string;
+  instagram: string;
+  domain: string;
+}
+
+const { lang, email, instagram, domain } = Astro.props;
+
+const languages: Language[] = ['en', 'de', 'es'];
+const currentPath = Astro.url.pathname.replace(/^\/(de|es)/, '') || '/';
+---
+
+<footer class="section-padding py-12 bg-aw-base border-t border-aw-sage/20">
+  <div class="container-wide">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+      <!-- Brand -->
+      <div>
+        <p class="text-xl font-bold text-aw-sand mb-2">AWANAR</p>
+        <p class="text-sm text-aw-sand/60">Expeditions into the forest.</p>
+      </div>
+
+      <!-- Contact -->
+      <div>
+        <p class="font-medium text-aw-sand mb-3">Contact</p>
+        <ul class="space-y-2 text-sm">
+          <li>
+            <a href={`mailto:${email}`} class="text-aw-sand/70 hover:text-aw-sand transition-colors">
+              {email}
+            </a>
+          </li>
+          <li>
+            <a href={`https://instagram.com/${instagram.replace('@', '')}`} target="_blank" rel="noopener" class="text-aw-sand/70 hover:text-aw-sand transition-colors">
+              {instagram}
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Links -->
+      <div>
+        <p class="font-medium text-aw-sand mb-3">Links</p>
+        <ul class="space-y-2 text-sm">
+          <li>
+            <a href={`/${lang === 'en' ? '' : lang + '/'}program`} class="text-aw-sand/70 hover:text-aw-sand transition-colors">
+              Program
+            </a>
+          </li>
+          <li>
+            <a href={`/${lang === 'en' ? '' : lang + '/'}safety`} class="text-aw-sand/70 hover:text-aw-sand transition-colors">
+              Safety & Ethics
+            </a>
+          </li>
+          <li>
+            <a href={`/${lang === 'en' ? '' : lang + '/'}faq`} class="text-aw-sand/70 hover:text-aw-sand transition-colors">
+              FAQ
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Language -->
+      <div>
+        <p class="font-medium text-aw-sand mb-3">Language</p>
+        <div class="flex gap-2">
+          {languages.map((l) => (
+            <a
+              href={l === 'en' ? currentPath : `/${l}${currentPath === '/' ? '' : currentPath}`}
+              class={`px-3 py-1 rounded text-sm transition-colors ${
+                lang === l
+                  ? 'bg-aw-sage text-white'
+                  : 'text-aw-sand/70 hover:text-aw-sand hover:bg-aw-sage/20'
+              }`}
+            >
+              {languageNames[l]}
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <div class="pt-8 border-t border-aw-sage/20 flex flex-col sm:flex-row justify-between items-center gap-4">
+      <p class="text-xs text-aw-sand/50">
+        © 2026 AWANAR EXPEDITIONS. All rights reserved.
+      </p>
+      <p class="text-xs text-aw-sand/50">
+        {domain}
+      </p>
+    </div>
+  </div>
+</footer>

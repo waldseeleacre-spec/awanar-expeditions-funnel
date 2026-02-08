@@ -1,0 +1,43 @@
+---
+import FunnelLayout from '@layouts/FunnelLayout.astro';
+import CalendlyEmbed from '@components/conversion/CalendlyEmbed.astro';
+import { getContent } from '@content/content';
+
+const lang = 'es';
+const content = getContent(lang);
+const canonical = 'https://awanar-expeditions.com/es/call';
+---
+
+<FunnelLayout 
+  title={`Reservar Llamada | ${content.meta.siteName}`}
+  description="Programa una llamada de alineación gratuita de 30 minutos para discutir la expedición al Amazonas y responder tus preguntas."
+  canonical={canonical}
+  lang={lang}
+  content={content}
+>
+  <section class="section-padding pt-24 pb-16">
+    <div class="container-narrow text-center">
+      <h1 class="text-3xl sm:text-4xl font-bold text-aw-base mb-4">{content.call.title}</h1>
+      <p class="text-lg text-aw-sage mb-12">{content.call.subtitle}</p>
+    </div>
+  </section>
+
+  <section class="section-padding pb-16">
+    <div class="container-narrow">
+      <CalendlyEmbed height="700px" />
+    </div>
+  </section>
+
+  <!-- Alternative -->
+  <section class="section-padding py-12 bg-aw-base/5">
+    <div class="container-narrow text-center">
+      <p class="text-aw-sage mb-4">¿Listo para aplicar ahora?</p>
+      <a 
+        href="/es/apply" 
+        class="inline-flex items-center justify-center px-6 py-3 bg-aw-base text-aw-sand rounded-lg font-medium hover:bg-aw-forest transition-colors"
+      >
+        Ir a la aplicación
+      </a>
+    </div>
+  </section>
+</FunnelLayout>

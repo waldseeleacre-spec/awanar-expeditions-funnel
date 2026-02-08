@@ -1,0 +1,38 @@
+---
+import FunnelLayout from '@layouts/FunnelLayout.astro';
+import FAQAccordion from '@components/sections/FAQAccordion.astro';
+import Button from '@components/ui/Button.astro';
+import { getContent } from '@content/content';
+
+const lang = 'en';
+const content = getContent(lang);
+const canonical = 'https://awanar-expeditions.com/faq';
+---
+
+<FunnelLayout 
+  title={`FAQ | ${content.meta.siteName}`}
+  description="Frequently asked questions about the Amazon expedition. Language support, packing, payment, flights, booking process, and ceremonies."
+  canonical={canonical}
+  lang={lang}
+  content={content}
+>
+  <section class="section-padding pt-24 pb-16">
+    <div class="container-narrow text-center">
+      <h1 class="text-3xl sm:text-4xl font-bold text-aw-base mb-4">{content.faq.title}</h1>
+      <p class="text-lg text-aw-sage">Everything you need to know.</p>
+    </div>
+  </section>
+
+  <FAQAccordion content={content.faq} />
+
+  <!-- Still have questions -->
+  <section class="section-padding py-16 bg-aw-base/5">
+    <div class="container-narrow text-center">
+      <h2 class="text-2xl font-bold text-aw-base mb-4">Still have questions?</h2>
+      <p class="text-aw-sage mb-8">Book a free alignment call. No obligation.</p>
+      <Button href="/call" variant="primary" size="lg">
+        Book a call
+      </Button>
+    </div>
+  </section>
+</FunnelLayout>

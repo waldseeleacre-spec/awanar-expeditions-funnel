@@ -1,0 +1,94 @@
+---
+import '@styles/global.css';
+import type { Language } from '@content/content';
+import { generateHreflang, generateSchemaOrg } from '@lib/seo';
+
+interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  lang: Language;
+  ogImage?: string;
+}
+
+const { title, description, canonical, lang, ogImage = '/images/og-default.jpg' } = Astro.props;
+
+const ga4Id = import.meta.env.PUBLIC_GA4_ID;
+const metaPixelId = import.meta.env.PUBLIC_META_PIXEL_ID;
+
+const hreflangUrls = generateHreflang(Astro.url.pathname);
+const schemaOrg = generateSchemaOrg({ title, description, url: canonical });
+---
+
+<!DOCTYPE html>
+<html lang={lang}>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content={ogImage} />
+  
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={ogImage} />
+  
+  <!-- Hreflang -->
+  {hreflangUrls.map(({ lang: l, url }) => (
+    <link rel="alternate" hreflang={l} href={url} />
+  ))}
+  
+  <!-- Schema.org -->
+  <script type="application/ld+json" set:html={JSON.stringify(schemaOrg)} />
+  
+  <!-- GA4 (only if env var exists) -->
+  {ga4Id && (
+    <>
+      <script async src={`https://www.googletagmanager.com/gtag/js?id=${ga4Id}`} />
+      <script define:vars={{ ga4Id }}>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', ga4Id);
+      </script>
+    </>
+  )}
+  
+  <!-- Meta Pixel (only if env var exists) -->
+  {metaPixelId && (
+    <script define:vars={{ metaPixelId }}>
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      fbq('init', metaPixelId);
+      fbq('track', 'PageView');
+    </script>
+    <noscript>
+      <img height="1" width="1" style="display:none" src={`https://www.facebook.com/tr?id=${metaPixelId}&ev=PageView&noscript=1`} />
+    </noscript>
+  )}
+  
+  <!-- TODO: Consent gating hook - implement when ready -->
+  <!-- <script src="/scripts/consent.js" async></script> -->
+</head>
+<body>
+  <slot />
+</body>
+</html>

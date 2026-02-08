@@ -1,0 +1,28 @@
+---
+interface Props {
+  url?: string;
+  height?: string;
+}
+
+const { url = import.meta.env.PUBLIC_CALENDLY_URL, height = '700px' } = Astro.props;
+
+const calendlyUrl = url || '';
+---
+
+{calendlyUrl ? (
+  <div class="w-full rounded-lg overflow-hidden border border-aw-sage/20" style={`height: ${height}`}>
+    <iframe
+      src={calendlyUrl}
+      width="100%"
+      height="100%"
+      frameborder="0"
+      title="Schedule a call"
+      loading="lazy"
+    />
+  </div>
+) : (
+  <div class="bg-aw-sage/10 rounded-lg p-8 text-center">
+    <p class="text-aw-sage mb-4">Scheduling is temporarily unavailable.</p>
+    <p class="text-sm text-aw-sage/70">Please email us at hello@awanar-expeditions.com</p>
+  </div>
+)}

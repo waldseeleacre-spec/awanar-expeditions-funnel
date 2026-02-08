@@ -1,0 +1,43 @@
+---
+interface Props {
+  url?: string;
+  height?: string;
+}
+
+const { url = import.meta.env.PUBLIC_TYPEFORM_URL, height = '600px' } = Astro.props;
+
+const typeformUrl = url || '';
+---
+
+{typeformUrl ? (
+  <div class="w-full rounded-lg overflow-hidden border border-aw-sage/20" style={`height: ${height}`}>
+    <iframe
+      src={typeformUrl}
+      width="100%"
+      height="100%"
+      frameborder="0"
+      title="Application form"
+      loading="lazy"
+    />
+  </div>
+) : (
+  <div class="bg-aw-sage/10 rounded-lg p-8 text-center space-y-4">
+    <p class="text-aw-sage">Applications are temporarily being accepted via email.</p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <a 
+        href="mailto:hello@awanar-expeditions.com?subject=Expedition Application" 
+        class="inline-flex items-center justify-center px-6 py-3 bg-aw-base text-aw-sand rounded-lg font-medium hover:bg-aw-forest transition-colors"
+      >
+        Email us
+      </a>
+      <a 
+        href="https://wa.me/491234567890" 
+        target="_blank" 
+        rel="noopener"
+        class="inline-flex items-center justify-center px-6 py-3 border-2 border-aw-base text-aw-base rounded-lg font-medium hover:bg-aw-base hover:text-aw-sand transition-colors"
+      >
+        WhatsApp
+      </a>
+    </div>
+  </div>
+)}

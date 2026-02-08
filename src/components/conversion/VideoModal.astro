@@ -1,0 +1,68 @@
+---
+interface Props {
+  videoUrl: string;
+  triggerText?: string;
+}
+
+const { videoUrl, triggerText = 'Watch video' } = Astro.props;
+---
+
+<button
+  id="video-trigger"
+  class="inline-flex items-center gap-2 text-aw-base hover:text-aw-sage transition-colors"
+  aria-label={triggerText}
+>
+  <span class="w-10 h-10 rounded-full bg-aw-sage/20 flex items-center justify-center">
+    <svg class="w-4 h-4 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M8 5v14l11-7z"/>
+    </svg>
+  </span>
+  <span class="text-sm font-medium">{triggerText}</span>
+</button>
+
+<dialog id="video-modal" class="bg-transparent p-0 backdrop:bg-black/80">
+  <div class="relative w-[90vw] max-w-4xl aspect-video bg-black rounded-lg overflow-hidden">
+    <button
+      id="close-modal"
+      class="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/20 text-white flex items-center justify-center hover:bg-white/30 transition-colors"
+      aria-label="Close"
+    >
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+      </svg>
+    </button>
+    <div id="video-container" class="w-full h-full"></div>
+  </div>
+</dialog>
+
+<script define:vars={{ videoUrl }}>
+  const trigger = document.getElementById('video-trigger');
+  const modal = document.getElementById('video-modal');
+  const closeBtn = document.getElementById('close-modal');
+  const container = document.getElementById('video-container');
+
+  if (trigger && modal && container) {
+    trigger.addEventListener('click', () => {
+      modal.showModal();
+      // Inject iframe only on open (GDPR + performance)
+      if (!container.querySelector('iframe') && videoUrl) {
+        const embedUrl = videoUrl.includes('youtube') 
+          ? videoUrl.replace('watch?v=', 'embed/').replace('youtu.be/', 'youtube.com/embed/')
+          : videoUrl;
+        container.innerHTML = `<iframe src="${embedUrl}" class="w-full h-full" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>`;
+      }
+    });
+
+    closeBtn?.addEventListener('click', () => {
+      modal.close();
+      container.innerHTML = '';
+    });
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.close();
+        container.innerHTML = '';
+      }
+    });
+  }
+</script>

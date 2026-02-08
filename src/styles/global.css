@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import './tokens.css';
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply bg-aw-sand text-aw-base antialiased;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-6 py-3 bg-aw-base text-aw-sand rounded-lg font-medium transition-all hover:bg-aw-forest focus:outline-none focus:ring-2 focus:ring-aw-sage focus:ring-offset-2;
+  }
+  
+  .btn-secondary {
+    @apply inline-flex items-center justify-center px-6 py-3 bg-transparent border-2 border-aw-base text-aw-base rounded-lg font-medium transition-all hover:bg-aw-base hover:text-aw-sand focus:outline-none focus:ring-2 focus:ring-aw-sage focus:ring-offset-2;
+  }
+  
+  .section-padding {
+    @apply px-4 sm:px-6 lg:px-8 xl:px-12;
+  }
+  
+  .container-narrow {
+    @apply max-w-3xl mx-auto;
+  }
+  
+  .container-wide {
+    @apply max-w-6xl mx-auto;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}

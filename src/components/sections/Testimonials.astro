@@ -1,0 +1,66 @@
+---
+import Card from '@components/ui/Card.astro';
+
+interface Props {
+  title?: string;
+}
+
+const { title = 'What participants say' } = Astro.props;
+
+// Placeholder testimonials - replace with real ones when available
+const testimonials = [
+  {
+    quote: 'The forest taught me what years of therapy could not. This was not a trip. It was a homecoming.',
+    author: 'Participant, 2024',
+    location: 'Germany',
+  },
+  {
+    quote: 'I came looking for answers. I left with better questions—and the strength to live them.',
+    author: 'Participant, 2024',
+    location: 'Portugal',
+  },
+];
+---
+
+<section class="section-padding py-20">
+  <div class="container-wide">
+    <h2 class="text-2xl sm:text-3xl font-bold text-aw-base mb-12 text-center">{title}</h2>
+    
+    <div class="grid md:grid-cols-2 gap-6">
+      {testimonials.map((t) => (
+        <Card padding="lg">
+          <svg class="w-8 h-8 text-aw-sage/40 mb-4" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
+          </svg>
+          <p class="text-lg text-aw-base mb-4 italic">"{t.quote}"</p>
+          <div class="flex items-center gap-2">
+            <span class="w-8 h-8 rounded-full bg-aw-sage/20 flex items-center justify-center">
+              <span class="text-sm font-medium text-aw-sage">{t.author[0]}</span>
+            </span>
+            <div>
+              <p class="font-medium text-aw-base text-sm">{t.author}</p>
+              <p class="text-xs text-aw-sage">{t.location}</p>
+            </div>
+          </div>
+        </Card>
+      ))}
+    </div>
+
+    <!-- Video testimonials placeholder -->
+    <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {[1, 2, 3].map((i) => (
+        <div class="aspect-video bg-aw-base/10 rounded-lg flex items-center justify-center">
+          <div class="text-center">
+            <div class="w-12 h-12 rounded-full bg-aw-sage/20 flex items-center justify-center mx-auto mb-2">
+              <svg class="w-5 h-5 text-aw-sage" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"/>
+              </svg>
+            </div>
+            <p class="text-sm text-aw-sage">Video testimonial {i}</p>
+            <p class="text-xs text-aw-sage/60">Coming soon</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

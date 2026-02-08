@@ -1,0 +1,20 @@
+---
+interface Props {
+  variant?: 'default' | 'sage' | 'olive';
+  class?: string;
+}
+
+const { variant = 'default', class: className = '' } = Astro.props;
+
+const variantClasses = {
+  default: 'bg-aw-base text-aw-sand',
+  sage: 'bg-aw-sage text-white',
+  olive: 'bg-aw-olive text-white',
+};
+
+const classes = `inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${variantClasses[variant]} ${className}`;
+---
+
+<span class={classes}>
+  <slot />
+</span>

@@ -1,0 +1,52 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Footer from '@components/sections/Footer.astro';
+import type { Language, Content } from '@content/content';
+
+interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  lang: Language;
+  content: Content;
+  showMinimalNav?: boolean;
+}
+
+const { title, description, canonical, lang, content, showMinimalNav = true } = Astro.props;
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} lang={lang}>
+  {showMinimalNav && (
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-aw-base/90 backdrop-blur border-b border-aw-sage/20">
+      <div class="section-padding py-4">
+        <div class="container-wide flex items-center justify-between">
+          <a href={`/${lang === 'en' ? '' : lang + '/'}`} class="text-lg font-bold text-aw-sand">
+            AWANAR
+          </a>
+          <div class="flex items-center gap-6">
+            <a href={`/${lang === 'en' ? '' : lang + '/'}program`} class="text-sm text-aw-sand/70 hover:text-aw-sand transition-colors hidden sm:block">
+              {content.program.title}
+            </a>
+            <a href={`/${lang === 'en' ? '' : lang + '/'}faq`} class="text-sm text-aw-sand/70 hover:text-aw-sand transition-colors hidden sm:block">
+              {content.faq.title}
+            </a>
+            <a href={`/${lang === 'en' ? '' : lang + '/'}apply`} class="text-sm font-medium text-aw-sand bg-aw-sage/30 px-4 py-2 rounded-lg hover:bg-aw-sage/50 transition-colors">
+              {content.hero.ctaPrimary}
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  )}
+  
+  <main class={showMinimalNav ? 'pt-16' : ''}>
+    <slot />
+  </main>
+  
+  <Footer 
+    lang={lang} 
+    email={content.meta.email} 
+    instagram={content.meta.instagram}
+    domain={content.meta.domain}
+  />
+</BaseLayout>

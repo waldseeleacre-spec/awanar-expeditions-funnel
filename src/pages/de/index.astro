@@ -1,0 +1,65 @@
+---
+import FunnelLayout from '@layouts/FunnelLayout.astro';
+import Hero from '@components/sections/Hero.astro';
+import ValueProps from '@components/sections/ValueProps.astro';
+import ProgramSnapshot from '@components/sections/ProgramSnapshot.astro';
+import Testimonials from '@components/sections/Testimonials.astro';
+import CTA from '@components/sections/CTA.astro';
+import StickyCTA from '@components/conversion/StickyCTA.astro';
+import { getContent } from '@content/content';
+
+const lang = 'de';
+const content = getContent(lang);
+const canonical = 'https://awanar-expeditions.com/de/';
+---
+
+<FunnelLayout 
+  title={`${content.meta.siteName} | Amazonas Übergangsritus | September 2026`}
+  description="Ein 7-tägiger Übergangsritus im Amazonas-Regenwald. Kein Tourismus. Eine Überquerung. 12.-21. September 2026. Aldeia Timbaúba, Acre, Brasilien."
+  canonical={canonical}
+  lang={lang}
+  content={content}
+>
+  <Hero content={content.hero} lang={lang} />
+  
+  <section class="section-padding py-16">
+    <div class="container-narrow">
+      {content.hero.intro.map((paragraph) => (
+        <p class="text-lg text-aw-base/80 mb-4 leading-relaxed">{paragraph}</p>
+      ))}
+    </div>
+  </section>
+  
+  <ValueProps content={content.positioning} />
+  <ProgramSnapshot content={content.quickFacts} />
+  
+  <!-- Team section -->
+  <section class="section-padding py-16 bg-aw-base/5">
+    <div class="container-wide">
+      <h2 class="text-2xl sm:text-3xl font-bold text-aw-base mb-8 text-center">{content.team.title}</h2>
+      <div class="grid sm:grid-cols-3 gap-6 max-w-3xl mx-auto">
+        {content.team.members.map((member) => (
+          <div class="text-center">
+            <div class="w-16 h-16 rounded-full bg-aw-sage/20 flex items-center justify-center mx-auto mb-3">
+              <span class="text-xl font-bold text-aw-sage">{member.name[0]}</span>
+            </div>
+            <p class="font-semibold text-aw-base">{member.name}</p>
+            <p class="text-sm text-aw-sage">{member.role}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+  
+  <Testimonials title="Was Teilnehmer sagen" />
+  
+  <CTA 
+    title="Der Wald ruft."
+    subtitle="12.-21. September 2026. Begrenzte Plätze."
+    primaryCta={{ text: content.hero.ctaPrimary, href: '/de/apply' }}
+    secondaryCta={{ text: 'Anruf buchen', href: '/de/call' }}
+    lang={lang}
+  />
+  
+  <StickyCTA ctaText={content.hero.ctaPrimary} ctaHref="/de/apply" lang={lang} />
+</FunnelLayout>

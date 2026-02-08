@@ -1,0 +1,35 @@
+---
+import Button from '@components/ui/Button.astro';
+
+interface Props {
+  ctaText: string;
+  ctaHref: string;
+  lang: string;
+}
+
+const { ctaText, ctaHref, lang } = Astro.props;
+---
+
+<div class="fixed bottom-0 left-0 right-0 z-50 bg-aw-base/95 backdrop-blur border-t border-aw-sage/20 p-4 transform translate-y-full transition-transform duration-300" id="sticky-cta">
+  <div class="container-wide flex items-center justify-between gap-4">
+    <p class="text-aw-sand text-sm hidden sm:block">Ready to answer the call?</p>
+    <Button href={ctaHref} variant="primary" size="md" class="w-full sm:w-auto bg-aw-sand text-aw-base hover:bg-white">
+      {ctaText}
+    </Button>
+  </div>
+</div>
+
+<script>
+  const stickyCta = document.getElementById('sticky-cta');
+  let shown = false;
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 500 && !shown) {
+      stickyCta?.classList.remove('translate-y-full');
+      shown = true;
+    } else if (window.scrollY <= 300 && shown) {
+      stickyCta?.classList.add('translate-y-full');
+      shown = false;
+    }
+  }, { passive: true });
+</script>

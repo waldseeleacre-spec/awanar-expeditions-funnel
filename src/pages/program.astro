@@ -1,0 +1,122 @@
+---
+import FunnelLayout from '@layouts/FunnelLayout.astro';
+import Card from '@components/ui/Card.astro';
+import Button from '@components/ui/Button.astro';
+import { getContent } from '@content/content';
+
+const lang = 'en';
+const content = getContent(lang);
+const canonical = 'https://awanar-expeditions.com/program';
+---
+
+<FunnelLayout 
+  title={`Program | ${content.meta.siteName}`}
+  description="Complete program overview for the September 2026 Amazon expedition. Timeline, included items, preparation, and what to expect."
+  canonical={canonical}
+  lang={lang}
+  content={content}
+>
+  <section class="section-padding pt-24 pb-16">
+    <div class="container-narrow">
+      <h1 class="text-3xl sm:text-4xl font-bold text-aw-base mb-4">{content.program.title}</h1>
+      <p class="text-lg text-aw-sage mb-12">September 12–21, 2026</p>
+    </div>
+  </section>
+
+  <!-- Timeline -->
+  <section class="section-padding py-12 bg-aw-base/5">
+    <div class="container-narrow">
+      <h2 class="text-xl font-semibold text-aw-base mb-8">Journey Timeline</h2>
+      <div class="space-y-6">
+        {content.program.timeline.map((item, index) => (
+          <div class="flex gap-4">
+            <div class="flex flex-col items-center">
+              <div class="w-8 h-8 rounded-full bg-aw-sage flex items-center justify-center text-white text-sm font-medium">
+                {index + 1}
+              </div>
+              {index < content.program.timeline.length - 1 && (
+                <div class="w-0.5 flex-1 bg-aw-sage/30 mt-2" />
+              )}
+            </div>
+            <div class="pb-6">
+              <p class="font-semibold text-aw-base">{item.day} — {item.date}</p>
+              <p class="text-aw-base/70">{item.activity}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- In Aldeia -->
+  <section class="section-padding py-16">
+    <div class="container-narrow">
+      <h2 class="text-xl font-semibold text-aw-base mb-6">{content.program.inAldeia.title}</h2>
+      <ul class="space-y-3 mb-12">
+        {content.program.inAldeia.items.map((item) => (
+          <li class="flex items-start gap-3">
+            <span class="w-5 h-5 rounded-full bg-aw-sage/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+              <svg class="w-3 h-3 text-aw-sage" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+              </svg>
+            </span>
+            <span class="text-aw-base/80">{item}</span>
+          </li>
+        ))}
+      </ul>
+
+      <div class="bg-aw-sage/10 rounded-lg p-4 mb-12">
+        <p class="text-sm text-aw-sage">
+          <strong>Note:</strong> Detailed ceremonial information is shared with confirmed participants during preparation. All ceremonies are optional and guided by community protocols.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Included / Not Included -->
+  <section class="section-padding py-12 bg-aw-base/5">
+    <div class="container-narrow">
+      <div class="grid md:grid-cols-2 gap-8">
+        <Card padding="lg">
+          <h3 class="text-lg font-semibold text-aw-base mb-4">{content.program.included.title}</h3>
+          <ul class="space-y-2">
+            {content.program.included.items.map((item) => (
+              <li class="flex items-start gap-2 text-sm text-aw-base/80">
+                <span class="text-aw-sage">✓</span>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </Card>
+
+        <Card padding="lg">
+          <h3 class="text-lg font-semibold text-aw-base mb-4">{content.program.notIncluded.title}</h3>
+          <ul class="space-y-2">
+            {content.program.notIncluded.items.map((item) => (
+              <li class="flex items-start gap-2 text-sm text-aw-base/80">
+                <span class="text-aw-olive">×</span>
+                {item}
+              </li>
+            ))}
+          </ul>
+        </Card>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section-padding py-16">
+    <div class="container-narrow text-center">
+      <h2 class="text-2xl font-bold text-aw-base mb-4">Ready to join?</h2>
+      <p class="text-aw-sage mb-8">Applications are reviewed on a rolling basis.</p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <Button href="/apply" variant="primary" size="lg">
+          Apply now
+        </Button>
+        <Button href="/call" variant="secondary" size="lg">
+          Book a call
+        </Button>
+      </div>
+    </div>
+  </section>
+</FunnelLayout>

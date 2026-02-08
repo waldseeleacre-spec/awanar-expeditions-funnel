@@ -1,0 +1,121 @@
+---
+import Button from '@components/ui/Button.astro';
+import type { Content } from '@content/content';
+
+interface Props {
+  content: Content['hero'];
+  lang: string;
+}
+
+const { content, lang } = Astro.props;
+
+const streamUrl = import.meta.env.PUBLIC_STREAM_IFRAME_URL;
+const youtubeUrl = import.meta.env.PUBLIC_HERO_YOUTUBE_URL;
+const hasVideo = !!(streamUrl || youtubeUrl);
+---
+
+<section class="relative min-h-[90vh] flex items-center">
+  <!-- Background Video/Image -->
+  <div class="absolute inset-0 z-0">
+    {streamUrl ? (
+      <iframe
+        src={streamUrl}
+        class="w-full h-full object-cover"
+        allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
+        allowfullscreen
+        loading="eager"
+      />
+    ) : (
+      <div class="w-full h-full bg-gradient-to-br from-aw-base via-aw-forest to-aw-sage">
+        <div class="absolute inset-0 bg-black/40" />
+      </div>
+    )}
+  </div>
+
+  <!-- Content -->
+  <div class="relative z-10 w-full section-padding py-20">
+    <div class="container-wide">
+      <div class="max-w-3xl">
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+          {content.headline}
+        </h1>
+        <p class="text-xl sm:text-2xl text-aw-sand mb-8 font-medium">
+          {content.subheadline}
+        </p>
+        <div class="flex flex-wrap gap-4">
+          <Button href={`/${lang === 'en' ? '' : lang + '/'}apply`} variant="primary" size="lg">
+            {content.ctaPrimary}
+          </Button>
+          <Button href={`/${lang === 'en' ? '' : lang + '/'}program`} variant="secondary" size="lg" class="border-white text-white hover:bg-white hover:text-aw-base">
+            {content.ctaSecondary}
+          </Button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Video Modal Trigger (if YouTube) -->
+  {youtubeUrl && !streamUrl && (
+    <button
+      id="video-trigger"
+      class="absolute bottom-8 right-8 z-20 flex items-center gap-2 text-white hover:text-aw-sand transition-colors"
+      aria-label="Watch video"
+    >
+      <span class="w-12 h-12 rounded-full bg-white/20 backdrop-blur flex items-center justify-center">
+        <svg class="w-5 h-5 ml-1" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M8 5v14l11-7z"/>
+        </svg>
+      </span>
+      <span class="text-sm font-medium">Watch video</span>
+    </button>
+  )}
+</section>
+
+<!-- Video Modal -->
+{youtubeUrl && !streamUrl && (
+  <dialog id="video-modal" class="bg-transparent p-0 backdrop:bg-black/80">
+    <div class="relative w-[90vw] max-w-4xl aspect-video bg-black rounded-lg overflow-hidden">
+      <button
+        id="close-modal"
+        class="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/20 text-white flex items-center justify-center hover:bg-white/30 transition-colors"
+        aria-label="Close"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+      <div id="video-container" class="w-full h-full"></div>
+    </div>
+  </dialog>
+)}
+
+<script>
+  const trigger = document.getElementById('video-trigger');
+  const modal = document.getElementById('video-modal') as HTMLDialogElement;
+  const closeBtn = document.getElementById('close-modal');
+  const container = document.getElementById('video-container');
+  const youtubeUrl = '${youtubeUrl || ''}';
+
+  if (trigger && modal && container) {
+    trigger.addEventListener('click', () => {
+      modal.showModal();
+      // Inject iframe only on open (GDPR + performance)
+      if (!container.querySelector('iframe') && youtubeUrl) {
+        const embedUrl = youtubeUrl.replace('watch?v=', 'embed/').replace('youtu.be/', 'youtube.com/embed/');
+        container.innerHTML = `<iframe src="${embedUrl}" class="w-full h-full" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>`;
+      }
+    });
+
+    closeBtn?.addEventListener('click', () => {
+      modal.close();
+      container.innerHTML = ''; // Stop video
+    });
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.close();
+        container.innerHTML = '';
+      }
+    });
+  }
+</script>

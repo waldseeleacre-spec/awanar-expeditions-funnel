@@ -1,0 +1,61 @@
+---
+import Card from '@components/ui/Card.astro';
+import type { Content } from '@content/content';
+
+interface Props {
+  content: Content['quickFacts'];
+}
+
+const { content } = Astro.props;
+---
+
+<section class="section-padding py-16 bg-aw-base/5">
+  <div class="container-wide">
+    <h2 class="text-2xl sm:text-3xl font-bold text-aw-base mb-8 text-center">{content.title}</h2>
+    
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <Card padding="md" class="text-center">
+        <div class="w-10 h-10 rounded-full bg-aw-sage/20 flex items-center justify-center mx-auto mb-3">
+          <svg class="w-5 h-5 text-aw-sage" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+          </svg>
+        </div>
+        <p class="text-sm text-aw-sage mb-1">Date</p>
+        <p class="font-semibold text-aw-base">{content.date}</p>
+      </Card>
+
+      <Card padding="md" class="text-center">
+        <div class="w-10 h-10 rounded-full bg-aw-sage/20 flex items-center justify-center mx-auto mb-3">
+          <svg class="w-5 h-5 text-aw-sage" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+          </svg>
+        </div>
+        <p class="text-sm text-aw-sage mb-1">Location</p>
+        <p class="font-semibold text-aw-base text-sm">{content.location}</p>
+      </Card>
+
+      <Card padding="md" class="text-center">
+        <div class="w-10 h-10 rounded-full bg-aw-sage/20 flex items-center justify-center mx-auto mb-3">
+          <svg class="w-5 h-5 text-aw-sage" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+        </div>
+        <p class="text-sm text-aw-sage mb-1">Investment</p>
+        <p class="font-semibold text-aw-base">{content.price}</p>
+      </Card>
+
+      <Card padding="md" class="text-center">
+        <div class="w-10 h-10 rounded-full bg-aw-sage/20 flex items-center justify-center mx-auto mb-3">
+          <svg class="w-5 h-5 text-aw-sage" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+        </div>
+        <p class="text-sm text-aw-sage mb-1">Duration</p>
+        <p class="font-semibold text-aw-base">{content.duration}</p>
+      </Card>
+    </div>
+
+    <p class="text-center text-aw-sage mt-6 text-sm">{content.travelDays}</p>
+  </div>
+</section>

@@ -1,0 +1,31 @@
+---
+import Button from '@components/ui/Button.astro';
+
+interface Props {
+  title: string;
+  subtitle?: string;
+  primaryCta: { text: string; href: string };
+  secondaryCta?: { text: string; href: string };
+  lang: string;
+}
+
+const { title, subtitle, primaryCta, secondaryCta, lang } = Astro.props;
+---
+
+<section class="section-padding py-20 bg-aw-base">
+  <div class="container-narrow text-center">
+    <h2 class="text-3xl sm:text-4xl font-bold text-aw-sand mb-4">{title}</h2>
+    {subtitle && <p class="text-lg text-aw-sand/80 mb-8">{subtitle}</p>}
+    
+    <div class="flex flex-wrap justify-center gap-4">
+      <Button href={primaryCta.href} variant="primary" size="lg" class="bg-aw-sand text-aw-base hover:bg-white">
+        {primaryCta.text}
+      </Button>
+      {secondaryCta && (
+        <Button href={secondaryCta.href} variant="secondary" size="lg" class="border-aw-sand text-aw-sand hover:bg-aw-sand hover:text-aw-base">
+          {secondaryCta.text}
+        </Button>
+      )}
+    </div>
+  </div>
+</section>
